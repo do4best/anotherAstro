@@ -99,8 +99,20 @@
     function claculateAge(){
         const birthdateInput = document.getElementById("birthday").value;
         const birthdateParts = birthdateInput.split("-");
+        const birthDay = birthdateParts[0];
+        const birthdayMonth = birthdateParts[1 ]-1
+        const birthdayYear = birthdateParts[2];
+        const birthDate = new Date(birthdayYear,birthdayMonth,birthDay)
         console.log(birthdateInput)
-        console.log(birthdateInput)
+        console.log(birthdateParts)
+        console.log(birthDay)
+        console.log(birthdayMonth)
+        console.log(birthdayYear)
+        const isValidDate =(date)=>{
+            return(
+                Object.prototype.toString.call(date) === ['object Date'] && !isNaN(date)
+            );
+        }
     }
 
     const ageCalculatorForm = document.getElementById("ageCalculator")
