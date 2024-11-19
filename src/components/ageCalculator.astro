@@ -14,12 +14,13 @@
     </div>
     </form>
     <div class="result-container" id="resultContainer">
-        <!--<div class="result" id="result">-->
+        <div class="result" id="result">
         <!--    <div class="result-item">-->
         <!--        <h3>Weeks Passed:</h3>-->
         <!--        <p>ageInWeeks</p>-->
         <!--    </div>-->
         <!--</div>-->
+
     </div>
 </div>
 <style lang="scss">
@@ -96,28 +97,95 @@
 </style>
 <script>
 
+    // the following code is build to find the age calculator
+
+// the following age calculator form variable  is responsible for the ageCalculator id #
+    const ageCalculatorForm = document.getElementById("ageCalculator")
+    // now the age calculator variable is pasted with add window listener i mean it will be resposible for the result
+    // it will call only one function calculate Age
+    ageCalculatorForm.addEventListener("submit",(e)=>{
+        e.preventDefault();
+        claculateAge();
+    })
+
     function claculateAge(){
-        const birthdateInput = document.getElementById("birthday").value;
-        const birthdateParts = birthdateInput.split("-");
-        const birthDay = birthdateParts[0];
-        const birthdayMonth = birthdateParts[1 ]-1
-        const birthdayYear = birthdateParts[2];
-        const birthDate = new Date(birthdayYear,birthdayMonth,birthDay)
+
+        const today = new Date()//////define the current date which result in millisecond
+        const birthdateInput = document.getElementById("birthday").value; // trace the input field by value
+        const birthdateParts = birthdateInput.split("-"); // make it space with a dash value
+        const birthDay = birthdateParts[0]; // tell the first value in input
+        const birthdayMonth = birthdateParts[1]-1 //second value
+        const birthdayYear = birthdateParts[2]; // third value
+        const birthDate = new Date(birthdayYear,birthdayMonth,birthDay) // another date variable for fixed year month and date
         console.log(birthdateInput)
         console.log(birthdateParts)
         console.log(birthDay)
         console.log(birthdayMonth)
         console.log(birthdayYear)
-        const isValidDate =(date)=>{
+        const isValidDate =(date)=>{ // validation value is checked by this function
             return(
-                Object.prototype.toString.call(date) === ['object Date'] && !isNaN(date)
+                Object.prototype.toString.call(date) === "[object Date]" && !isNaN(date)
             );
+        };
+        if(!isValidDate((birthDate))){ // if the function is verified i mean not null
+            alert("Invalid Date format: Please Enter a valid date in DD-MM-YYYY format.")
+            return;
         }
-    }
+        const ageMillisecond = today - birthDate;// this is the main variable which determined (substract) from present to past
+        const ageInSeconds = Math.floor(ageMillisecond/1000);
+        const ageInMinute = Math.floor(ageInSeconds/60);
+        const ageInHour = Math.floor(ageInMinute/60);
+        const ageInDays = Math.floor(ageInHour/24);
+        const ageInWeeks = Math.floor(ageInDays/7);
+        const ageInMonths = Math.floor(ageInDays/30.436875);
+        const ageInYears = Math.floor(ageInDays/365.25);
 
-    const ageCalculatorForm = document.getElementById("ageCalculator")
-    ageCalculatorForm?.addEventListener("submit",(e)=>{
-        e.preventDefault();
-        claculateAge();
-    })
+        const resultContainer = document.getElementById("resultContainer")
+        const result = document.getElementById("result")
+
+        result.innerHTML =`
+            <div class="result" >
+            
+                <h3>Age In Years:</h3>
+                <p>${ageInYears} Years ${ageInMonths} Months ${ageInDays} Days</p>
+            
+        </div>
+<div class="result" >
+            
+                <h3>Age In Months:</h3>
+                <p> ${ageInMonths} Months</p>
+            
+        </div>
+<div class="result" >
+            
+                <h3>Age in Weeks:</h3>
+                <p>${ageInWeeks} Weeks </p>
+            </div>
+        </div>
+<div class="result" >
+            
+                <h3>Age in Days:</h3>
+                <p>${ageInDays} Days </p>
+            </div>
+        </div>
+<div class="result" >
+            
+                <h3>Age in Hours:</h3>
+                <p>${ageInHour} Hours </p>
+            </div>
+        </div>
+<div class="result" >
+            
+                <h3>Age in Minutes:</h3>
+                <p>${ageInMinute} Minutes </p>
+            </div>
+        </div>
+<div class="result" >
+            
+                <h3>Age in Seconds:</h3>
+                <p>${ageInSeconds} Seconds </p>
+            </div>
+        </div>`;
+
+        resultContainer.style.display="block"}
 </script>
